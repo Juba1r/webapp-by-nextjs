@@ -2,16 +2,21 @@ import React from "react";
 import styles from "./page.module.css";
 import Link from "next/link";
 import Image from "next/image";
+import Error from "next/error";
 
+async function getData() {
+  const res = await fetch("https://jsonplaceholder.typicode.com/posts");
+  if (!res.ok) {
+    throw new Error("failed to fetch data");
+  }
+  return res.json();
+}
 
-const Blog = () => {
+const Blog = async () => {
+  const data = await getData();
   return (
     <div className={styles.mainContainer}>
-      <Link
-        href="/testid"
-        className={styles.container}
-        
-      >
+      <Link href="/testid" className={styles.container}>
         <div className={styles.imageContainer}>
           <Image
             src="/hero.png"
